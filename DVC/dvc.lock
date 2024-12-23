@@ -1,0 +1,119 @@
+schema: '2.0'
+stages:
+  data_preperation:
+    cmd: python src\data_preperation.py
+    deps:
+    - path: .\src\data_preperation.py
+      hash: md5
+      md5: eec9e0aed9bfe93c09822cd6b2f0f39b
+      size: 1574
+    outs:
+    - path: .\src\data\raw
+      hash: md5
+      md5: 842b22d8e1653ea108a0897676c740e0.dir
+      size: 6691264
+      nfiles: 1
+  linear_model:
+    cmd: python .\src\linear_model.py
+    deps:
+    - path: .\src\data\raw
+      hash: md5
+      md5: 842b22d8e1653ea108a0897676c740e0.dir
+      size: 6691264
+      nfiles: 1
+    - path: .\src\linear_model.py
+      hash: md5
+      md5: daddbef5f75500c0b4da0d4cef82fef5
+      size: 1024
+    outs:
+    - path: .\src\data\models\LinearRegression
+      hash: md5
+      md5: 4f80b3480b1d37bb9884fa9e248b6e62.dir
+      size: 629
+      nfiles: 1
+  xgBoost_model:
+    cmd: python .\src\xgboost_model.py
+    deps:
+    - path: .\src\data\raw
+      hash: md5
+      md5: 842b22d8e1653ea108a0897676c740e0.dir
+      size: 6691264
+      nfiles: 1
+    - path: .\src\xgboost_model.py
+      hash: md5
+      md5: 185168282a0971ca7f292ae49ff7512a
+      size: 1052
+    outs:
+    - path: .\src\data\models\xgboost
+      hash: md5
+      md5: e02f8cff3ae86ee27a30c1a2741713dd.dir
+      size: 406401
+      nfiles: 1
+  RandomForest_model:
+    cmd: python .\src\RandomForest_model.py
+    deps:
+    - path: .\src\RandomForest_model.py
+      hash: md5
+      md5: 8694be0c16dc3f45e332c6c9a70be57e
+      size: 1047
+    - path: .\src\data\raw
+      hash: md5
+      md5: 842b22d8e1653ea108a0897676c740e0.dir
+      size: 6691264
+      nfiles: 1
+    outs:
+    - path: .\src\data\models\RandomForest
+      hash: md5
+      md5: 3045f6b4f17b1cc08fce1994b9d4a61e.dir
+      size: 455589109
+      nfiles: 1
+  nn_model:
+    cmd: python .\src\nn_model.py
+    deps:
+    - path: .\src\data\raw
+      hash: md5
+      md5: 842b22d8e1653ea108a0897676c740e0.dir
+      size: 6691264
+      nfiles: 1
+    - path: .\src\nn_model.py
+      hash: md5
+      md5: 360d14aa62efb8835126ea5cbe6bfcb5
+      size: 2358
+    outs:
+    - path: .\src\data\models\nnModel
+      hash: md5
+      md5: 771e1c631341e363694078702794d302.dir
+      size: 80006
+      nfiles: 1
+  model_evaluation:
+    cmd: python .\src\model_evaluation.py
+    deps:
+    - path: .\src\data\models\LinearRegression
+      hash: md5
+      md5: 4f80b3480b1d37bb9884fa9e248b6e62.dir
+      size: 629
+      nfiles: 1
+    - path: .\src\data\models\RandomForest
+      hash: md5
+      md5: 3045f6b4f17b1cc08fce1994b9d4a61e.dir
+      size: 455589109
+      nfiles: 1
+    - path: .\src\data\models\nnModel
+      hash: md5
+      md5: 771e1c631341e363694078702794d302.dir
+      size: 80006
+      nfiles: 1
+    - path: .\src\data\models\xgboost
+      hash: md5
+      md5: e02f8cff3ae86ee27a30c1a2741713dd.dir
+      size: 406401
+      nfiles: 1
+    - path: .\src\model_evaluation.py
+      hash: md5
+      md5: 8e0b02d9800311931e89ed5e91345beb
+      size: 4165
+    outs:
+    - path: .\metrics.json
+      hash: md5
+      md5: c9a913f085fe982a583902680897c721
+      size: 696

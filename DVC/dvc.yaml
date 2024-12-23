@@ -1,0 +1,45 @@
+stages:
+  data_preperation:
+    cmd: python src\data_preperation.py
+    deps:
+    - .\src\data_preperation.py
+    outs:
+    - .\src\data\raw
+  linear_model:
+    cmd: python .\src\linear_model.py
+    deps:
+    - .\src\data\raw
+    - .\src\linear_model.py
+    outs:
+    - .\src\data\models\LinearRegression
+  xgBoost_model:
+    cmd: python .\src\xgboost_model.py
+    deps:
+    - .\src\data\raw
+    - .\src\xgboost_model.py
+    outs:
+    - .\src\data\models\xgboost
+  RandomForest_model:
+    cmd: python .\src\RandomForest_model.py
+    deps:
+    - .\src\RandomForest_model.py
+    - .\src\data\raw
+    outs:
+    - .\src\data\models\RandomForest
+  nn_model:
+    cmd: python .\src\nn_model.py
+    deps:
+    - .\src\data\raw
+    - .\src\nn_model.py
+    outs:
+    - .\src\data\models\nnModel
+  model_evaluation:
+    cmd: python .\src\model_evaluation.py
+    deps:
+    - .\src\data\models\LinearRegression
+    - .\src\data\models\RandomForest
+    - .\src\data\models\nnModel
+    - .\src\data\models\xgboost
+    - .\src\model_evaluation.py
+    metrics:
+    - .\metrics.json
